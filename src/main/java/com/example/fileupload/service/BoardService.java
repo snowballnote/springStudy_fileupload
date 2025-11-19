@@ -2,6 +2,7 @@ package com.example.fileupload.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,23 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class BoardService {
 	@Autowired BoardMapper boardMapper;
+
+	// 상세보기
+	public Board getBoardOne(int boardNo) {
+		return boardMapper.selectBoardOne(boardNo);
+	}
+	// 상세보기(파일 목록)
+	public List<Boardfile> getBoardfileList(int boardNo){
+		return boardMapper.selectBoardfileListByBoardOne(boardNo);
+	}
 	
+	// 목록보기 boardList
+	public List<Board> getBoardList() {
+		// 페이징 로직, ...
+		return boardMapper.selectBoardList();
+		
+	}
+
 	public void addBoard(BoardForm bf, String path) { // path: 업로드 파일이 저장될 위치
 		// 1) board 입력 - SQLExcetion 발생 - Transactional 동작
 		Board b = new Board();

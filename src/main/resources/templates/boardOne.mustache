@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>boardOne</h1>
+	<table border="1">
+		<tr>
+			<th>boardNo</th>
+			<td>{{board.boardNo}}</td>
+		</tr>
+		<tr>
+			<th>boardNo</th>
+			<td>{{board.title}}</td>
+		</tr>
+		
+		<tr>
+			<th>file</th>
+			<td>
+				{{#boardfileList}}
+					<div>
+						<!-- fileNo, filename, originName, fileSize, fileExtension -->
+						<a href="{{springMacroRequestContext.request.contextPath}}/" 
+							download="{{originName}}">
+							{{filename}}.{{fileExtension}} ({{fileSize}} Byte)	
+						</a>
+						<a href="{{springMacroRequestContext.request.contextPath}}/removeFile?fileNo={{fileNo}}">[파일삭제]</a>
+					</div>
+				{{/boardfileList}}
+				
+				{{^boardfileList}}
+					<div>첨부된 파일이 없습니다.</div>
+				{{/boardfileList}}
+			</td>
+		</tr>
+	</table>
+	<a href="{{springMacroRequestContext.request.contextPath}}/removeBoard?boardNo={{board.boardNo}}">[삭제(첨부파일삭제)]</a>
+	<a href="{{springMacroRequestContext.request.contextPath}}/modifyBoard?boardNo={{board.boardNo}}">[수정(첨부파일수정x)]</a>
+</body>
+</html>

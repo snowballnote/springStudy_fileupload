@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>boardList</h1>
+	<div>
+		<a href="{{springMacroRequestContext.request.contextPath}}/addBoard">[addBoard]</a>
+	</div>
+	<table border="1">
+		<tr>
+			<td>boardNo</td>
+			<td>title</td>
+		</tr>
+		{{#boardList}}
+			<tr>
+				<td>{{boardNo}}</td>
+				<td><a href="{{springMacroRequestContext.request.contextPath}}/boardOne?boardNo={{boardNo}}">{{title}}</td>
+			</tr>
+		{{/boardList}}
+	</table>
+</body>
+</html>

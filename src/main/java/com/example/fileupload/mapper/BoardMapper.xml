@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.fileupload.mapper.BoardMapper">
+	<!-- 파일삭제 -->
+	<select id="deleteBoardfile" parameterType="int">
+		delete from boardfile
+		where file_no=#{fileNo}
+	</select>
+	
+	<!-- 상세보기 -->
+	<select id="selectBoardOne" parameterType="int" resultType="com.example.fileupload.dto.Board">
+		select board_no boardNo, title
+		from board
+		where board_no=#{boardNo}
+	</select>
+	
+	<select id="selectBoardfileListByBoardOne" parameterType="int" resultType="com.example.fileupload.dto.Boardfile">
+		select file_no fileNo, filename , origin_name originName, file_size fileSize, file_extension fileExtension
+		from boardfile
+		where board_no=#{boardNo}
+	</select>
+	
+	<!-- 목록 -->
+	<select id="selectBoardList" resultType="com.example.fileupload.dto.Board">
+		select board_no boardNo, title
+		from board
+		order by board_no desc
+	</select>
+
 	<!-- 입력 -->
 	<insert id="insertBoard" parameterType="com.example.fileupload.dto.Board"
 			useGeneratedKeys="true" keyColumn="board_no" keyProperty="boardNo">

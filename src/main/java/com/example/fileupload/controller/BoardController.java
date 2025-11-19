@@ -2,6 +2,7 @@ package com.example.fileupload.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -17,6 +18,20 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 	
+	@GetMapping("/boardOne")
+	public String boardOne(Model model, int boardNo) {
+		model.addAttribute("board", boardService.getBoardOne(boardNo));
+		model.addAttribute("boardfileList", boardService.getBoardfileList(boardNo));
+		
+		return "boardOne";
+	}
+	
+	@GetMapping("/boardList")
+	public String boardList(Model model) {
+		model.addAttribute("boardList", boardService.getBoardList());
+		return "boardList";
+	}
+	
 	// 입력 액션
 	@PostMapping("/addBoard")
 	public String addBoard(HttpSession session, BoardForm bf) {
@@ -31,7 +46,7 @@ public class BoardController {
 		String path = session.getServletContext().getRealPath("/upload/");
 		boardService.addBoard(bf, path);
 		
-		return "redirect:/";		
+		return "redirect:/ ";		
 	}
 	
 	// 입력 폼
