@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>updateBoard</h1>
+	
+	<form action="{{springMacroRequestContext.request.contextPath}}/updateBoard" method="post">
+		<input type="hidden" name="boardNo" value="{{board.boardNo}}">
+		
+		<table border="1">
+			<tr>
+				<th>게시글 번호</th>
+				<td>{{board.boardNo}}</td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td>
+					<input type="text" name="title" value="{{board.title}}">
+				</td>
+			</tr>
+		</table>
+		
+		<button type="submit">수정완료</button>
+		<a href="/boardOne?boardNo={{board.boardNo}}">취소</a>
+	</form>
+</body>
+</html>

@@ -10,8 +10,12 @@ import com.example.fileupload.dto.Boardfile;
 
 @Mapper
 public interface BoardMapper { // -> @Repasitory ? implements BoardMapper
+	// 게시글 제목 수정
+    int updateBoard(Board b);
+	
 	// 파일 삭제
-	int deleteBoardfile(int fileNo);
+	int removeBoardfile(int fileNo);
+	Boardfile selectBoardfileOne(int fileNo);
 	
 	// 상세보기
 	Board selectBoardOne(int boardNo);

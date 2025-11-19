@@ -26,7 +26,10 @@
 							download="{{originName}}">
 							{{filename}}.{{fileExtension}} ({{fileSize}} Byte)	
 						</a>
-						<a href="{{springMacroRequestContext.request.contextPath}}/removeFile?fileNo={{fileNo}}">[파일삭제]</a>
+						<form action="{{springMacroRequestContext.request.contextPath}}/removeFile" method="post" style="display:inline;">
+					        <input type="hidden" name="fileNo" value="{{fileNo}}">
+					        <button type="submit">[파일삭제]</button>
+					    </form>
 					</div>
 				{{/boardfileList}}
 				
@@ -36,7 +39,8 @@
 			</td>
 		</tr>
 	</table>
+	<hr>
 	<a href="{{springMacroRequestContext.request.contextPath}}/removeBoard?boardNo={{board.boardNo}}">[삭제(첨부파일삭제)]</a>
-	<a href="{{springMacroRequestContext.request.contextPath}}/modifyBoard?boardNo={{board.boardNo}}">[수정(첨부파일수정x)]</a>
+	<a href="{{springMacroRequestContext.request.contextPath}}/updateBoard?boardNo={{board.boardNo}}">[수정(첨부파일수정x)]</a>
 </body>
 </html>
