@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.fileupload.mapper.BoardMapper">
+	<!-- 입력 -->
+	<insert id="insertBoard" parameterType="com.example.fileupload.dto.Board"
+			useGeneratedKeys="true" keyColumn="board_no" keyProperty="boardNo">
+		insert into board(title)
+		value(#{title})		
+	</insert>
+	
+	<insert id="insertBoardfile" parameterType="com.example.fileupload.dto.Boardfile">
+		insert into boardfile(
+			board_no, filename, origin_name, file_size, file_type, file_extension
+		) values (
+			#{boardNo}, #{filename}, #{originName}, #{fileSize}, #{fileType}, #{fileExtension}
+		)	
+	</insert>
+</mapper>

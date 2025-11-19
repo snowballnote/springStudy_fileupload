@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>addBoard</h1>
+	<form method="post" enctype="multipart/form-data" action="{{springMacroRequestContext.request.contextPath}}/addBoard">
+		<table border="1">
+			<tr>
+				<td>title</td>
+				<td>
+					<input type="text" name="title">
+				</td>
+			</tr>
+			<tr>
+				<td>boardfile</td>
+				<td>
+					<input type="file" name="boardfile" multiple>
+				</td>
+			</tr>
+		</table>
+		<button>addBoard</button>
+	</form>
+</body>
+</html>
