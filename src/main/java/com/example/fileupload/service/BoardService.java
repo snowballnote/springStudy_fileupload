@@ -23,6 +23,48 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 	@Autowired BoardMapper boardMapper;
 	
+	// 게시글 삭제
+	public int removeBoard(int boardNo, String path) {
+		// 파일 시스템에서 삭제할 파일 목록 조회(DB삭제 전)
+		List<Boardfile> fileList = boardMapper.selectBoardfileListByBoardOne(boardNo);
+		log.debug("1. 파일 목록 조회 성공. 삭제할 파일 개수: {}", fileList.size());
+		
+		// 첨부 파일 레코드 삭제 (자식 먼저)
+		int fileRowCount = boardMapper.removeBoardfileByBoardNo(boardNo);
+		log.debug("2. 파일 레코드 삭제 완료. row: {}", fileRowCount);
+		
+		// 게시글 본문 레코드 삭제(부모 나중)
+		int boardRowCount = boardMapper.removeBoard(boardNo);
+		log.debug("3. 게시글 본문 삭제 완료. row: {}", boardRowCount);
+		
+		if (boardRowCount != 1) {
+			throw new RowZeroException();
+		}
+		
+		// 실제 파일 삭제
+		if(fileList != null && !fileList.isEmpty()) {
+			for(Boardfile fileInfo : fileList) {
+				String fullFileName = fileInfo.getFilename() + "." + fileInfo.getFileExtension();
+			    File file = new File(path + fullFileName); // 전체 경로 생성
+			    log.debug("4. 파일 시스템 경로 확인: {}", path + fullFileName);
+				
+			    if (file.exists()) {
+			        if (file.delete()) {
+			            log.info("파일 시스템에서 파일 삭제 성공: {}", fullFileName);
+			        } else {
+			            // 파일 시스템 삭제 실패는 RuntimeException을 던져 트랜잭션 롤백 유도
+			            // (DB 삭제된 것도 되돌려야 안전합니다.)
+			            log.error("파일 시스템에서 파일 삭제 실패: {}", fullFileName);
+			            throw new RuntimeException("파일 시스템 삭제 중 오류 발생"); 
+			        }
+			    } else {
+			        log.warn("파일 시스템에 파일이 존재하지 않아 삭제를 건너뜁니다: {}", fullFileName);
+			    }
+			}
+		}
+		return boardNo;
+	}
+	
 	// 게시글 제목 수정
 	public int updateBoard(Board b) {
 		// Board Mapper를 사용하여 게시글(title)을 수정하고,

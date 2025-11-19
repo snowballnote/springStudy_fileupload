@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.fileupload.mapper.BoardMapper">
-	<!-- 파일수정 -->
+	<!-- 게시글 삭제 -->
+	<delete id="removeBoardfileByBoardNo" parameterType="com.example.fileupload.dto.Boardfile">
+        DELETE FROM boardfile
+        WHERE board_no = #{boardNo}
+    </delete>
+    
+	<delete id="removeBoard" parameterType="com.example.fileupload.dto.Board">
+		delete from board
+		where board_no=#{boardNo}
+	</delete>
+	
+	<!-- 게시글 제목 수정 -->
 	<update id="updateBoard" parameterType="com.example.fileupload.dto.Boardfile">
 		update board
 		set title=#{title}
 		where board_no=#{boardNo}
 	</update>
 	<!-- 파일삭제 -->
-	<delete id="deleteBoardfile" parameterType="com.example.fileupload.dto.Boardfile">
+	<delete id="removeBoardfile" parameterType="com.example.fileupload.dto.Boardfile">
 		delete from boardfile
 		where file_no=#{fileNo}
 	</delete>

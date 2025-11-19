@@ -18,6 +18,26 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	@Autowired
 	BoardService boardService;
+	// 게시글 삭제 액션
+	@PostMapping("/removeBoard")
+	public String removeBoard(HttpSession session, int boardNo) {
+		log.info("게시글 삭제 요청: BoardNo={}", boardNo);
+			
+		try {
+			String path = session.getServletContext().getRealPath("/upload/");
+				
+			// Service 호출(삭제 처리)
+			boardService.removeBoard(boardNo, path);
+				
+			// 삭제 성공 시 해당 게시글 상세 페이지로 리다이렉트
+			return "redirect:/boardList";
+				
+		} catch (Exception e) {
+			log.error("파일 삭제 처리 중 오류 발생:  BoardNo={}", boardNo, e);
+			// 오류 발생 시 목록 페이지로 리다이렉트 (실패 시 상세 페이지로 돌아가기 어려움)
+			return "redirect:/boardOne?boardNo=" + boardNo;
+		}
+	}
 	
 	// 게시글 제목 수정 폼
 	// 입력 폼
@@ -102,7 +122,7 @@ public class BoardController {
 		String path = session.getServletContext().getRealPath("/upload/");
 		boardService.addBoard(bf, path);
 		
-		return "redirect:/ ";		
+		return "redirect:/boardList";		
 	}
 	
 	// 입력 폼

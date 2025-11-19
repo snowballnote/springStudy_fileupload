@@ -40,7 +40,12 @@
 		</tr>
 	</table>
 	<hr>
-	<a href="{{springMacroRequestContext.request.contextPath}}/removeBoard?boardNo={{board.boardNo}}">[삭제(첨부파일삭제)]</a>
+	<form action="{{springMacroRequestContext.request.contextPath}}/removeBoard" method="post">  
+	    <input type="hidden" name="boardNo" value="{{board.boardNo}}">
+	    <button type="submit">[삭제(첨부파일포함삭제)]</button>
+	</form>
 	<a href="{{springMacroRequestContext.request.contextPath}}/updateBoard?boardNo={{board.boardNo}}">[수정(첨부파일수정x)]</a>
+	<br>
+	<a href="{{springMacroRequestContext.request.contextPath}}/boardList">Back to List</a>
 </body>
 </html>

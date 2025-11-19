@@ -10,6 +10,12 @@ import com.example.fileupload.dto.Boardfile;
 
 @Mapper
 public interface BoardMapper { // -> @Repasitory ? implements BoardMapper
+	// 게시글 번호로 모든 첨부 파일 레코드 일괄 삭제
+    int removeBoardfileByBoardNo(int boardNo);
+	
+	// 게시글 삭제
+	int removeBoard(int boardNo);
+	
 	// 게시글 제목 수정
     int updateBoard(Board b);
 	
