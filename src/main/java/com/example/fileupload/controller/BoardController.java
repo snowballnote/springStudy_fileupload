@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.fileupload.dto.BoardForm;
 import com.example.fileupload.service.BoardService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -18,7 +19,7 @@ public class BoardController {
 	
 	// 입력 액션
 	@PostMapping("/addBoard")
-	public String addBoard(BoardForm bf) {
+	public String addBoard(HttpSession session, BoardForm bf) {
 		log.debug("title: " + bf.getTitle());
 		log.debug("boardfile.size: " + bf.getBoardfile().size());
 		// bf.getBoardfile() -> List<MultipartFile>
@@ -26,10 +27,11 @@ public class BoardController {
 		log.debug("boardfile[0]: " + bf.getBoardfile().get(0).getSize());
 		// 파일을 업로드 했는지 안했는지는 첫번째 파일의 사이즈, 이름, ..., 속성으로 확인이 필요하다.
 		
-		boardService.addBoard(bf);
+		// 업로드 위치
+		String path = session.getServletContext().getRealPath("/upload/");
+		boardService.addBoard(bf, path);
 		
-		return "redirect:/";
-		
+		return "redirect:/";		
 	}
 	
 	// 입력 폼
